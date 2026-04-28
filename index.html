@@ -15,7 +15,6 @@
         .tab-btn { padding-bottom: 8px; font-weight: 700; color: #444; transition: 0.3s; border-bottom: 2px solid transparent; }
         .tab-btn.active { color: #38bdf8; border-color: #38bdf8; }
         
-        /* Premium Poster UI */
         #poster-preview {
             width: 320px;
             background: #ffffff;
@@ -54,13 +53,18 @@
                     <input type="color" id="qr-color" value="#000000" class="w-full h-10 bg-transparent cursor-pointer rounded-lg overflow-hidden border border-white/10 mt-1">
                 </div>
                 <div>
-                    <label class="text-[10px] font-bold text-slate-500 uppercase">Design Style</label>
-                    <select id="qr-style" class="input-pro text-xs py-2 mt-1">
-                        <option value="square">Classic Square</option>
-                        <option value="rounded">Modern Rounded</option>
-                        <option value="extra-rounded">Dots Style</option>
+                    <label class="text-[10px] font-bold text-slate-500 uppercase">Style</label>
+                    <select id="qr-style" class="input-pro text-xs py-2 mt-1" onchange="updateQR()">
+                        <option value="square">Square</option>
+                        <option value="rounded">Rounded</option>
+                        <option value="extra-rounded">Dots</option>
                     </select>
                 </div>
+            </div>
+
+            <div class="pt-2">
+                <label class="text-[10px] font-bold text-slate-500 uppercase block mb-2">Center Logo (Optional)</label>
+                <input type="file" id="qr-logo" accept="image/*" class="text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-sky-500/10 file:text-sky-400 hover:file:bg-sky-500/20 cursor-pointer">
             </div>
 
             <button onclick="downloadQR()" class="w-full bg-white text-black hover:bg-slate-200 p-4 rounded-xl font-bold text-lg transition-all active:scale-95 shadow-xl">
@@ -76,7 +80,7 @@
                 </div>
                 
                 <h3 id="display-name" class="text-2xl font-extrabold mb-1 truncate px-2 text-slate-900">Digi Solutions</h3>
-                <p id="display-sub" class="text-[11px] text-slate-500 mb-6 font-medium">Scan to continue</p>
+                <p id="display-sub" class="text-[11px] text-slate-500 mb-6 font-medium tracking-tight">Scan to continue</p>
                 
                 <div class="bg-white p-2 rounded-2xl inline-block mx-auto mb-6">
                     <div id="qr-canvas"></div>
@@ -94,12 +98,16 @@
 
 <script>
     let activeTab = 'link';
+    let logoData = "";
+    
     const qrCode = new QRCodeStyling({
         width: 240, height: 240,
         data: "https://digisolutions.com",
+        image: "",
         dotsOptions: { color: "#000000", type: "square" },
         backgroundOptions: { color: "#ffffff" },
-        cornersSquareOptions: { type: "square", color: "#000000" }
+        cornersSquareOptions: { type: "square", color: "#000000" },
+        imageOptions: { crossOrigin: "anonymous", margin: 5, imageSize: 0.4 }
     });
 
     qrCode.append(document.getElementById("qr-canvas"));
@@ -143,31 +151,41 @@
             const lName = document.getElementById('link-name')?.value;
             finalData = document.getElementById('inp-data')?.value || "https://digisolutions.com";
             displayName = lName || "Web Link";
-            displaySub = finalData;
+            displaySub = "Scan to Visit Website"; // Changed from Link to static text
         } else if(activeTab === 'wifi') {
             const dName = document.getElementById('wifi-display-name')?.value;
             const ssid = document.getElementById('wifi-name')?.value || "WiFi";
             const pass = document.getElementById('wifi-pass')?.value || "";
             finalData = `WIFI:S:${ssid};T:WPA;P:${pass};;`;
             displayName = dName || ssid;
-            displaySub = "Connect to WiFi";
+            displaySub = "Scan to Connect WiFi";
         } else if(activeTab === 'merchant') {
             const mName = document.getElementById('m-name')?.value || "Merchant Name";
             const mAcc = document.getElementById('m-acc')?.value || "Account Details";
-            const mBank = document.getElementById('m-bank')?.value || "";
             finalData = `PAYMENT:N:${mName};ACC:${mAcc};;`;
             displayName = mName;
-            displaySub = mAcc;
+            displaySub = "Scan to Pay Now";
         }
 
         qrCode.update({
             data: finalData,
-            dotsOptions: { color: document.getElementById('qr-color').value, type: document.getElementById('qr-style').value }
+            dotsOptions: { color: document.getElementById('qr-color').value, type: document.getElementById('qr-style').value },
+            image: logoData
         });
 
         document.getElementById('display-name').innerText = displayName;
         document.getElementById('display-sub').innerText = displaySub;
     }
+
+    document.getElementById("qr-logo").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            logoData = reader.result;
+            updateQR();
+        };
+        reader.readAsDataURL(file);
+    });
 
     function downloadQR() {
         qrCode.download({ name: "DigiSolutions_QR", extension: "png" });
@@ -175,7 +193,6 @@
 
     switchTab('link');
     document.getElementById('qr-color').addEventListener('input', updateQR);
-    document.getElementById('qr-style').addEventListener('change', updateQR);
 </script>
 
 </body>
