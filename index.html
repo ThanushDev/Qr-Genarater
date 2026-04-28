@@ -3,115 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digi Kuppiya | Ultimate QR Studio</title>
+    <title>Digi Kuppiya | QR Experience Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
         body {
-            background: #050505;
+            background: #000;
             color: #fff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
+            background-image: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
         }
-        .glass-panel {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .pro-card {
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 2rem;
         }
-        .input-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .input-base {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             transition: 0.3s;
         }
-        .input-box:focus {
+        .input-base:focus {
             border-color: #38bdf8;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
         }
         #canvas-container canvas {
             max-width: 100% !important;
             height: auto !important;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+        }
+        .pro-tab.active {
+            color: #38bdf8;
+            border-bottom: 2px solid #38bdf8;
+        }
+        /* Business Card Mockup */
+        #mockup-preview {
+            width: 350px;
+            height: 200px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(-10deg) rotateX(10deg);
+            transition: transform 0.5s;
+        }
+        #mockup-preview:hover {
+            transform: rotateY(0deg) rotateX(0deg);
+        }
+        #mockup-qr-overlay {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
         }
     </style>
 </head>
-<body class="min-h-screen py-10 px-4">
+<body class="min-h-screen py-12 px-5">
 
-<div class="max-w-6xl mx-auto">
-    <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-blue-500 to-emerald-400">
-            Digi Solutions QR Studio
+<div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter bg-clip-text text-transparent bg-gradient-to-br from-white via-sky-300 to-slate-500">
+            Digi Solutions Studio
         </h1>
-        <p class="text-slate-400 mt-4 text-lg">Professional, Lifetime & Highly Customizable QR Codes</p>
+        <p class="text-slate-500 mt-5 text-lg">Next-Gen QR Creation. Craft Unique Experiences, not just codes.</p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-10">
         
-        <div class="lg:col-span-7 space-y-6">
+        <div class="xl:col-span-2 space-y-8">
             
-            <div class="glass-panel p-6 rounded-[2rem] space-y-6">
-                <div>
-                    <label class="text-xs font-bold uppercase text-sky-400 tracking-widest block mb-2">1. Target Link / Text</label>
-                    <input type="text" id="qr-data" placeholder="https://digikuppiya.com" 
-                           class="input-box w-full p-4 rounded-2xl outline-none text-white">
+            <div class="pro-card p-8">
+                <div class="flex border-b border-white/5 mb-6 text-sm text-slate-500 font-bold uppercase tracking-wider">
+                    <button class="pro-tab active pb-3 px-1 mr-6" onclick="setTab('link')">Link</button>
+                    <button class="pro-tab pb-3 px-1 mr-6" onclick="setTab('wifi')">WiFi</button>
+                    <button class="pro-tab pb-3 px-1" onclick="setTab('vcard')">Contact</button>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <label class="text-xs font-bold uppercase text-sky-400 tracking-widest block">2. Shapes & Style</label>
-                        <select id="qr-dot-style" class="input-box w-full p-3 rounded-xl outline-none">
-                            <option value="rounded">Dots: Rounded</option>
-                            <option value="dots">Dots: Circles</option>
-                            <option value="square">Dots: Square</option>
-                            <option value="extra-rounded">Dots: Bold</option>
-                        </select>
-                        <select id="qr-eye-style" class="input-box w-full p-3 rounded-xl outline-none">
-                            <option value="extra-rounded">Eyes: Rounded</option>
-                            <option value="square">Eyes: Square</option>
-                        </select>
-                    </div>
-
-                    <div class="space-y-4">
-                        <label class="text-xs font-bold uppercase text-sky-400 tracking-widest block">3. Custom Colors (Gradient)</label>
-                        <div class="flex gap-3">
-                            <input type="color" id="qr-color-1" value="#38bdf8" class="flex-1 h-12 bg-transparent border-none cursor-pointer">
-                            <input type="color" id="qr-color-2" value="#10b981" class="flex-1 h-12 bg-transparent border-none cursor-pointer">
-                        </div>
-                        <p class="text-[10px] text-slate-500 text-center">Color 1 & Color 2 for smooth gradient</p>
-                    </div>
-                </div>
-
-                <div class="pt-4 border-t border-white/5">
-                    <label class="text-xs font-bold uppercase text-sky-400 tracking-widest block mb-3">4. Add Your Logo</label>
-                    <input type="file" id="qr-logo" accept="image/*" 
-                           class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-500/10 file:text-sky-400 hover:file:bg-sky-500/20 cursor-pointer w-full">
+                
+                <div id="data-inputs" class="space-y-4">
+                    <input type="text" id="qr-data-link" placeholder="https://example.com" class="input-base w-full p-4 rounded-xl outline-none text-white">
                 </div>
             </div>
 
-            <div class="glass-panel p-6 rounded-[2rem] flex flex-col md:flex-row items-center gap-4">
-                <select id="download-format" class="input-box p-4 rounded-2xl outline-none w-full md:w-32">
-                    <option value="png">PNG</option>
-                    <option value="svg">SVG</option>
-                    <option value="jpeg">JPG</option>
-                </select>
-                <button onclick="downloadQR()" 
-                        class="w-full p-4 bg-gradient-to-r from-sky-500 to-blue-600 rounded-2xl font-bold text-lg hover:shadow-[0_0_30px_rgba(56,189,248,0.4)] transition-all active:scale-95">
-                    Generate & Download
-                </button>
+            <div class="pro-card p-8 space-y-6">
+                <label class="text-xs font-bold uppercase text-sky-500 tracking-widest block">Design & Visual Blend (Feature 2 - Blending)</label>
+                
+                <div class="grid grid-cols-2 gap-5">
+                    <div>
+                        <select id="qr-dot-style" class="input-base w-full p-3 rounded-xl outline-none text-slate-300 text-sm">
+                            <option value="rounded">Modern Rounded Dots</option>
+                            <option value="dots">Circular Dots</option>
+                            <option value="square">Classic Square Dots</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="color" id="qr-color-1" value="#38bdf8" class="w-full h-12 bg-transparent border-none cursor-pointer">
+                    </div>
+                </div>
+
+                <div class="pt-5 border-t border-white/5">
+                    <label class="text-xs font-bold uppercase text-sky-500 tracking-widest block mb-3">Logo Overlay (Blended Style)</label>
+                    <input type="file" id="qr-logo" accept="image/*" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-sky-500/5 file:text-sky-400 hover:file:bg-sky-500/10 cursor-pointer">
+                </div>
             </div>
+            
+            <button onclick="downloadQR()" 
+                    class="w-full p-5 bg-gradient-to-br from-sky-400 to-blue-600 rounded-2xl font-extrabold text-xl hover:shadow-[0_0_50px_rgba(56,189,248,0.3)] transition-all active:scale-95">
+                Generate & Download Pro QR
+            </button>
         </div>
 
-        <div class="lg:col-span-5">
-            <div class="glass-panel p-8 rounded-[2rem] sticky top-10 flex flex-col items-center">
-                <div class="bg-white p-4 rounded-3xl shadow-inner">
+        <div class="space-y-8">
+            <div class="pro-card p-8 flex flex-col items-center">
+                <div class="bg-white p-5 rounded-3xl">
                     <div id="canvas-container"></div>
                 </div>
-                <div class="mt-8 text-center">
-                    <div class="flex items-center justify-center gap-2 mb-2">
-                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-                        <span class="text-xs font-bold text-slate-400 uppercase">Live Studio Preview</span>
+                <div class="mt-6 flex items-center gap-2 text-emerald-400">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                    <span class="text-xs font-bold uppercase tracking-widest">Live Experience</span>
+                </div>
+            </div>
+
+            <div class="pro-card p-8 flex flex-col items-center overflow-hidden">
+                <label class="text-xs font-bold uppercase text-slate-500 tracking-widest block mb-5">3D Business Card Mockup</label>
+                <div id="mockup-preview">
+                    <div class="p-6 text-black">
+                        <div class="text-2xl font-bold">Your Name</div>
+                        <div class="text-sm text-gray-600">Company Name</div>
+                        <div id="mockup-link-text" class="text-[10px] text-gray-400 mt-10">Scan Me</div>
                     </div>
-                    <p class="text-[11px] text-slate-500 max-w-[200px]">Scan this to test before downloading</p>
+                    <div id="mockup-qr-overlay"></div>
                 </div>
             </div>
         </div>
@@ -120,67 +145,90 @@
 </div>
 
 <script>
-    let logoData = "";
+    let currentTab = 'link';
+    let qrCodeStyling = null;
+    
+    // QR Code instance setup
     const qrCode = new QRCodeStyling({
-        width: 300,
-        height: 300,
-        type: "svg",
-        data: "https://digikuppiya.com",
-        image: "",
+        width: 300, height: 300, type: "svg",
+        data: "Digi Kuppiya Pro", image: "",
         dotsOptions: {
             type: "rounded",
-            gradient: {
-                type: "linear",
-                colorStops: [{ offset: 0, color: "#38bdf8" }, { offset: 1, color: "#10b981" }]
-            }
+            gradient: { type: "linear", colorStops: [{ offset: 0, color: "#38bdf8" }, { offset: 1, color: "#10b981" }] }
         },
         backgroundOptions: { color: "#ffffff" },
-        imageOptions: { crossOrigin: "anonymous", margin: 8, imageSize: 0.4 },
+        imageOptions: { crossOrigin: "anonymous", margin: 10, imageSize: 0.4 },
         cornersSquareOptions: { type: "extra-rounded", color: "#000000" }
     });
-
+    
     qrCode.append(document.getElementById("canvas-container"));
-
-    // Event Listeners
-    document.getElementById("qr-data").addEventListener("input", (e) => {
-        qrCode.update({ data: e.target.value || "Digi Kuppiya" });
-    });
-
-    const updateColors = () => {
-        const c1 = document.getElementById("qr-color-1").value;
-        const c2 = document.getElementById("qr-color-2").value;
-        qrCode.update({
-            dotsOptions: {
-                gradient: { type: "linear", colorStops: [{ offset: 0, color: c1 }, { offset: 1, color: c2 }] }
-            }
+    
+    // --- Unique Feature 4: Mockup Update Logic ---
+    const updateMockup = (data, format, ext) => {
+        // Nikan QR image ekak mockup eke pite thiyena color ekata blending effect ekak danna api use karanne simple image tag ekak
+        qrCode.getRawData('png').then(blob => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                document.getElementById('mockup-qr-overlay').innerHTML = `<img src="${reader.result}" class="w-full h-full object-contain">`;
+                document.getElementById('mockup-link-text').textContent = (currentTab === 'link' && data) ? data : "Scan QR";
+            };
+            reader.readAsDataURL(blob);
         });
     };
 
-    document.getElementById("qr-color-1").addEventListener("input", updateColors);
-    document.getElementById("qr-color-2").addEventListener("input", updateColors);
+    // Update function on any change
+    const updateQR = () => {
+        let data = "Digi Kuppiya";
+        if (currentTab === 'link') data = document.getElementById('qr-data-link').value || "https://digikuppiya.com";
+        // WiFi and vCard logic can be added here...
+        
+        const c1 = document.getElementById("qr-color-1").value;
+        const dotStyle = document.getElementById("qr-dot-style").value;
+        
+        const updates = {
+            data: data,
+            dotsOptions: {
+                type: dotStyle,
+                color: c1,
+                gradient: { type: "linear", colorStops: [{ offset: 0, color: c1 }, { offset: 1, color: c1 }] }
+            }
+        };
+        
+        qrCode.update(updates);
+        updateMockup(data); // Real-time mockup update
+    };
 
-    document.getElementById("qr-dot-style").addEventListener("change", (e) => {
-        qrCode.update({ dotsOptions: { type: e.target.value } });
-    });
+    // Tab Management
+    const setTab = (tab) => {
+        currentTab = tab;
+        document.querySelectorAll('.pro-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.pro-tab[onclick="setTab('${tab}')"]`).classList.add('active');
+        
+        let html = '';
+        if (tab === 'link') html = `<input type="text" id="qr-data-link" placeholder="https://example.com" class="input-base w-full p-4 rounded-xl outline-none text-white" oninput="updateQR()">`;
+        else if (tab === 'wifi') html = `
+            <div class="grid grid-cols-2 gap-4">
+                <input type="text" id="wifi-ssid" placeholder="Network Name" class="input-base w-full p-4 rounded-xl outline-none text-white" oninput="updateQR()">
+                <input type="password" id="wifi-pass" placeholder="Password" class="input-base w-full p-4 rounded-xl outline-none text-white" oninput="updateQR()">
+            </div>`;
+        // Contact (vCard) can be added similarly
+        document.getElementById('data-inputs').innerHTML = html;
+        updateQR();
+    };
 
-    document.getElementById("qr-eye-style").addEventListener("change", (e) => {
-        qrCode.update({ cornersSquareOptions: { type: e.target.value } });
-    });
+    // Event Listeners
+    document.getElementById("qr-color-1").addEventListener("input", updateQR);
+    document.getElementById("qr-dot-style").addEventListener("change", updateQR);
 
     document.getElementById("qr-logo").addEventListener("change", (e) => {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            logoData = reader.result;
-            qrCode.update({ image: logoData });
-        };
-        reader.readAsDataURL(file);
+        const reader = new FileReader(); reader.onload = () => { qrCode.update({ image: reader.result }); updateMockup(); }; reader.readAsDataURL(file);
     });
 
-    function downloadQR() {
-        const format = document.getElementById("download-format").value;
-        qrCode.download({ name: "DigiKuppiya_QR", extension: format });
-    }
+    function downloadQR() { qrCode.download({ name: "DigiKuppiya_Experience", extension: "png" }); }
+
+    // Initial update
+    setTab('link');
 </script>
 
 </body>
