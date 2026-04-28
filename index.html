@@ -3,89 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digi Solutions | Merchant QR Studio</title>
+    <title>Digi Solutions | Professional QR Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
         body { background: #080808; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; }
         .glass-panel { background: rgba(20, 20, 20, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
-        .input-pro { background: #151515; border: 1px solid #222; border-radius: 12px; padding: 12px; width: 100%; outline: none; transition: 0.3s; }
+        .input-pro { background: #151515; border: 1px solid #222; border-radius: 12px; padding: 12px; width: 100%; outline: none; transition: 0.3s; color: #fff; }
         .input-pro:focus { border-color: #38bdf8; background: #1a1a1a; }
         .tab-btn { padding-bottom: 8px; font-weight: 700; color: #444; transition: 0.3s; border-bottom: 2px solid transparent; }
         .tab-btn.active { color: #38bdf8; border-color: #38bdf8; }
         
-        /* Merchant Poster Design */
+        /* Premium Poster UI */
         #poster-preview {
-            width: 300px;
-            background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+            width: 320px;
+            background: #ffffff;
             color: #000;
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 28px;
+            padding: 24px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            position: relative;
         }
-        .merchant-label { background: #ffbe0b; color: #000; padding: 4px 12px; border-radius: 50px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+        .top-label { background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 8px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .bottom-brand { font-size: 14px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
     </style>
 </head>
-<body class="p-5 md:p-10">
+<body class="p-5 md:p-10 min-h-screen flex flex-col items-center">
 
-<div class="max-w-6xl mx-auto">
-    <div class="mb-10 text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-2">Merchant Pro QR</h1>
-        <p class="text-slate-500 uppercase tracking-widest text-xs font-bold">Standardized LankaQR Generator</p>
+<div class="max-w-6xl w-full mx-auto">
+    <div class="mb-12 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">QR Studio Pro</h1>
+        <p class="text-sky-500 uppercase tracking-widest text-[10px] font-bold">A Product of Digi Solutions</p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <div class="glass-panel p-8 rounded-[2.5rem] space-y-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div class="glass-panel p-8 rounded-[2rem] space-y-6">
             <div class="flex gap-6 border-b border-white/5 mb-4">
-                <button class="tab-btn active" id="btn-link" onclick="switchTab('link')">Link / URL</button>
+                <button class="tab-btn active" id="btn-link" onclick="switchTab('link')">Link</button>
                 <button class="tab-btn" id="btn-wifi" onclick="switchTab('wifi')">WiFi</button>
-                <button class="tab-btn" id="btn-merchant" onclick="switchTab('merchant')">Merchant (Pay)</button>
+                <button class="tab-btn" id="btn-merchant" onclick="switchTab('merchant')">Merchant</button>
             </div>
 
-            <div id="dynamic-inputs" class="space-y-4">
-                </div>
+            <div id="dynamic-inputs" class="space-y-4"></div>
 
-            <div class="pt-6 border-t border-white/5 grid grid-cols-2 gap-4">
+            <div class="pt-4 grid grid-cols-2 gap-4">
                 <div>
-                    <label class="text-[10px] font-bold text-slate-500 uppercase">Primary Color</label>
-                    <input type="color" id="qr-color" value="#000000" class="w-full h-10 bg-transparent cursor-pointer">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase">QR Color</label>
+                    <input type="color" id="qr-color" value="#000000" class="w-full h-10 bg-transparent cursor-pointer rounded-lg overflow-hidden border border-white/10 mt-1">
                 </div>
                 <div>
-                    <label class="text-[10px] font-bold text-slate-500 uppercase">Dot Style</label>
-                    <select id="qr-style" class="input-pro text-xs py-2">
-                        <option value="square">Square</option>
-                        <option value="rounded">Rounded</option>
-                        <option value="extra-rounded">Bold</option>
+                    <label class="text-[10px] font-bold text-slate-500 uppercase">Design Style</label>
+                    <select id="qr-style" class="input-pro text-xs py-2 mt-1">
+                        <option value="square">Classic Square</option>
+                        <option value="rounded">Modern Rounded</option>
+                        <option value="extra-rounded">Dots Style</option>
                     </select>
                 </div>
             </div>
 
-            <button onclick="downloadQR()" class="w-full bg-sky-500 hover:bg-sky-400 p-4 rounded-2xl font-bold text-lg transition-all active:scale-95 shadow-lg shadow-sky-500/20">
-                Download High-Res QR
+            <button onclick="downloadQR()" class="w-full bg-white text-black hover:bg-slate-200 p-4 rounded-xl font-bold text-lg transition-all active:scale-95 shadow-xl">
+                Download High-Res PNG
             </button>
         </div>
 
-        <div class="flex flex-col items-center justify-center">
+        <div class="flex flex-col items-center">
             <div id="poster-preview">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="merchant-label">Official QR</span>
-                    <div class="text-[10px] font-bold text-slate-400">Digi Kuppiya</div>
+                <div class="flex justify-between items-center mb-6">
+                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Premium QR</div>
+                    <span class="top-label">Official</span>
                 </div>
                 
-                <h3 id="display-name" class="text-xl font-extrabold mb-1 truncate">Your Business</h3>
-                <p id="display-sub" class="text-[10px] text-slate-500 mb-4">Scan to Pay or Visit</p>
+                <h3 id="display-name" class="text-2xl font-extrabold mb-1 truncate px-2 text-slate-900">Digi Solutions</h3>
+                <p id="display-sub" class="text-[11px] text-slate-500 mb-6 font-medium">Scan to continue</p>
                 
-                <div class="bg-slate-100 p-3 rounded-2xl inline-block mx-auto mb-4">
+                <div class="bg-white p-2 rounded-2xl inline-block mx-auto mb-6">
                     <div id="qr-canvas"></div>
                 </div>
 
-                <div class="border-t border-slate-100 pt-3">
-                    <p class="text-[9px] text-slate-400 italic">This is a standardized static QR for lifetime use.</p>
+                <div class="border-t border-slate-100 pt-5 flex flex-col items-center">
+                    <p class="text-[9px] text-slate-400 uppercase tracking-[0.2em] mb-1">Generated By</p>
+                    <h4 class="bottom-brand">Digi Solutions</h4>
                 </div>
             </div>
-            <p class="mt-6 text-slate-500 text-xs font-medium">Standard Poster View (Live Preview)</p>
+            <p class="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest">© 2024 All Rights Reserved</p>
         </div>
     </div>
 </div>
@@ -93,8 +95,8 @@
 <script>
     let activeTab = 'link';
     const qrCode = new QRCodeStyling({
-        width: 220, height: 220,
-        data: "Digi Kuppiya",
+        width: 240, height: 240,
+        data: "https://digisolutions.com",
         dotsOptions: { color: "#000000", type: "square" },
         backgroundOptions: { color: "#ffffff" },
         cornersSquareOptions: { type: "square", color: "#000000" }
@@ -113,49 +115,49 @@
     function renderInputs() {
         const container = document.getElementById('dynamic-inputs');
         if(activeTab === 'link') {
-            container.innerHTML = `<input type="text" id="inp-data" placeholder="https://example.com" class="input-pro" oninput="updateQR()">`;
+            container.innerHTML = `
+                <input type="text" id="link-name" placeholder="Name (e.g. My Portfolio)" class="input-pro mb-3" oninput="updateQR()">
+                <input type="text" id="inp-data" placeholder="https://example.com" class="input-pro" oninput="updateQR()">`;
         } else if(activeTab === 'wifi') {
             container.innerHTML = `
-                <input type="text" id="wifi-name" placeholder="WiFi Name (SSID)" class="input-pro mb-3" oninput="updateQR()">
-                <input type="password" id="wifi-pass" placeholder="Password" class="input-pro" oninput="updateQR()">
-            `;
+                <input type="text" id="wifi-display-name" placeholder="Display Name (e.g. Office WiFi)" class="input-pro mb-3" oninput="updateQR()">
+                <input type="text" id="wifi-name" placeholder="Network SSID" class="input-pro mb-3" oninput="updateQR()">
+                <input type="password" id="wifi-pass" placeholder="WiFi Password" class="input-pro" oninput="updateQR()">`;
         } else if(activeTab === 'merchant') {
             container.innerHTML = `
-                <input type="text" id="m-name" placeholder="Business / Merchant Name" class="input-pro mb-3" oninput="updateQR()">
+                <input type="text" id="m-name" placeholder="Merchant/Business Name" class="input-pro mb-3" oninput="updateQR()">
                 <input type="text" id="m-acc" placeholder="Account Number" class="input-pro mb-3" oninput="updateQR()">
                 <div class="grid grid-cols-2 gap-3">
                     <input type="text" id="m-bank" placeholder="Bank Name" class="input-pro" oninput="updateQR()">
                     <input type="text" id="m-city" placeholder="City" class="input-pro" oninput="updateQR()">
-                </div>
-            `;
+                </div>`;
         }
     }
 
     function updateQR() {
         let finalData = "";
-        let displayName = "Your Business";
-        let displaySub = "Scan to Connect";
+        let displayName = "Digi Solutions";
+        let displaySub = "Scan to Proceed";
 
         if(activeTab === 'link') {
-            finalData = document.getElementById('inp-data')?.value || "Digi Kuppiya";
-            displayName = "Web Link";
+            const lName = document.getElementById('link-name')?.value;
+            finalData = document.getElementById('inp-data')?.value || "https://digisolutions.com";
+            displayName = lName || "Web Link";
             displaySub = finalData;
         } else if(activeTab === 'wifi') {
-            const name = document.getElementById('wifi-name')?.value || "WiFi";
+            const dName = document.getElementById('wifi-display-name')?.value;
+            const ssid = document.getElementById('wifi-name')?.value || "WiFi";
             const pass = document.getElementById('wifi-pass')?.value || "";
-            finalData = `WIFI:S:${name};T:WPA;P:${pass};;`;
-            displayName = name;
-            displaySub = "Scan to Connect WiFi";
+            finalData = `WIFI:S:${ssid};T:WPA;P:${pass};;`;
+            displayName = dName || ssid;
+            displaySub = "Connect to WiFi";
         } else if(activeTab === 'merchant') {
-            const mName = document.getElementById('m-name')?.value || "Merchant";
-            const mAcc = document.getElementById('m-acc')?.value || "0000";
-            const mBank = document.getElementById('m-bank')?.value || "Bank";
-            const mCity = document.getElementById('m-city')?.value || "Colombo";
-            
-            // Simplified LankaQR structure for static display
-            finalData = `PAYMENT:N:${mName};ACC:${mAcc};B:${mBank};C:${mCity};;`;
+            const mName = document.getElementById('m-name')?.value || "Merchant Name";
+            const mAcc = document.getElementById('m-acc')?.value || "Account Details";
+            const mBank = document.getElementById('m-bank')?.value || "";
+            finalData = `PAYMENT:N:${mName};ACC:${mAcc};;`;
             displayName = mName;
-            displaySub = `${mBank} - ${mAcc}`;
+            displaySub = mAcc;
         }
 
         qrCode.update({
@@ -168,10 +170,9 @@
     }
 
     function downloadQR() {
-        qrCode.download({ name: "DigiKuppiya_Merchant_QR", extension: "png" });
+        qrCode.download({ name: "DigiSolutions_QR", extension: "png" });
     }
 
-    // Initial load
     switchTab('link');
     document.getElementById('qr-color').addEventListener('input', updateQR);
     document.getElementById('qr-style').addEventListener('change', updateQR);
